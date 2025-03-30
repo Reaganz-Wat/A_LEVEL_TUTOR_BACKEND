@@ -9,7 +9,7 @@ import {
 export class BaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: number;
 
   @ApiProperty()
   @UpdateDateColumn()
