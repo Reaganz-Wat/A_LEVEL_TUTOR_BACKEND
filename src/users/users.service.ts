@@ -21,12 +21,22 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
+  async findOne(id: string): Promise<User> {
+    const oneUser = await this.userRepository.findOne({ where: { id }});
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<void> {
+    if (!oneUser) {
+      throw new Error(`User with id: ${id} not found`);
+    }
+
+    return oneUser;
+  }
+
+
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<void> {
     await this.userRepository.update(id, updateUserDto);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }
 }
