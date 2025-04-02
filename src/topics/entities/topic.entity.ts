@@ -1,11 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ProjectBaseEntity } from "src/common/entities/base.entity";
+import { User } from "src/users/entities/user.entity";
+import { Column, Entity, ManyToMany, ManyToOne } from "typeorm";
 
 @Entity("topic")
-export class Topic extends BaseEntity {
-      @ApiProperty()
-      @PrimaryGeneratedColumn('uuid')
-      id: string;
+export class Topic extends ProjectBaseEntity {
     @ApiProperty()
     @Column({ length: 255 })
     title: string;
@@ -13,4 +12,7 @@ export class Topic extends BaseEntity {
     @ApiProperty()
     @Column('text')
     description: string;
+
+    @ManyToOne(()=>User, (user)=>user.topic, {onDelete: "CASCADE"})
+    user: User
 }

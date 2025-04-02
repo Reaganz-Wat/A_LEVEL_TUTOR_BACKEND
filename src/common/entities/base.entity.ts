@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class BaseEntity {
+
+export class ProjectBaseEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;

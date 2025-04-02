@@ -1,13 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from '@nestjs/swagger';
+import { ProjectBaseEntity } from 'src/common/entities/base.entity';
+import { Topic } from 'src/topics/entities/topic.entity';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity("user")
-export class User extends BaseEntity {
+@Entity('user')
+export class User extends ProjectBaseEntity {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-    @ApiProperty()
-    @Column({ length: 255 })
+  @Column({ length: 255 })
   name: string;
 
   @ApiProperty()
@@ -21,4 +20,7 @@ export class User extends BaseEntity {
   @ApiProperty()
   @Column({ type: 'enum', enum: ['admin', 'student'], default: 'student' })
   role: 'admin' | 'student';
+
+  @OneToMany(() => Topic, (topic) => topic.user)
+  topic: Topic[]
 }
