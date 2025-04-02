@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Topic } from './entities/topic.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TopicsService {
-  create(createTopicDto: CreateTopicDto) {
-    return 'This action adds a new topic';
+
+  constructor(
+    @InjectRepository(Topic) private readonly topicRepository: Repository<Topic>
+  ) {}
+
+  async create(createTopicDto: CreateTopicDto): Promise<Topic> {
+    const newTopic = this.topicRepository.create(createTopicDto);
+    return await this.topicRepository.save(newTopic);
   }
 
-  findAll() {
-    return `This action returns all topics`;
+  async findAll(): Promise<Topic[]> {
+    return this.topicRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} topic`;
+  async findOne(id: string): Promise<Topic> {
+    const oneTopic = await this.topicRepository.findOne({where: {id}});
+
+    if (!oneTopic) {
+      throw new Error(`Topic with id ${id} not found`)
+    }
+
+    return oneTopic
   }
 
-  update(id: number, updateTopicDto: UpdateTopicDto) {
-    return `This action updates a #${id} topic`;
+  async update(id: string, updateTopicDto: UpdateTopicDto){
+    return await this.topicRepository.update(id, updateTopicDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} topic`;
+  async remove(id: string) {
+    await this.topicRepository.delete(id);
   }
 }

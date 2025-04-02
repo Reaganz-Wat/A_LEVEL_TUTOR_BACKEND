@@ -83,7 +83,7 @@ import { AiQuerry } from './ai_querries/entities/ai_querry.entity';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [User, Topic, Lesson, Question, History, Exam, AiQuerry],
-        synchronize: false,  // Set to false in production
+        synchronize: true,  // Set to false in production
         migrationsRun: true,  // Run migrations automatically on application startup
         migrations: [__dirname + '/migrations/*.ts'], // Define where migrations are stored
         cli: {
