@@ -69,6 +69,7 @@ import { Question } from './questions/entities/question.entity';
 import { History } from './history/entities/history.entity';
 import { Exam } from './exams/entities/exam.entity';
 import { AiQuerry } from './ai_querries/entities/ai_querry.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -99,6 +100,7 @@ import { AiQuerry } from './ai_querries/entities/ai_querry.entity';
     ExamsModule,
     AiQuerriesModule,
     HistoryModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
