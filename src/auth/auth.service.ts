@@ -50,7 +50,7 @@ export class AuthService {
     
         const hash = await argon.hash(createUserDto.password);
 
-        const { email } = createUserDto
+        const { email, name, role } = createUserDto
     
         // Check for existing user
         const existing = await this.authRepository.findOne({ where: { email } });
@@ -58,7 +58,7 @@ export class AuthService {
           throw new ForbiddenException('Credentials taken');
         }
     
-        const user = this.authRepository.create(createUserDto);
+        const user = this.authRepository.create({email, name, role, password: hash});
     
         await this.authRepository.save(user);
     
