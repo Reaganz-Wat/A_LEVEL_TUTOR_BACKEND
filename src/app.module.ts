@@ -70,6 +70,7 @@ import { History } from './history/entities/history.entity';
 import { Exam } from './exams/entities/exam.entity';
 import { AiQuerry } from './ai_querries/entities/ai_querry.entity';
 import { AuthModule } from './auth/auth.module';
+import { AiChatModule } from './ai-chat/ai-chat.module';
 
 @Module({
   imports: [
@@ -101,6 +102,7 @@ import { AuthModule } from './auth/auth.module';
     AiQuerriesModule,
     HistoryModule,
     AuthModule,
+    AiChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
