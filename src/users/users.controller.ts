@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { JwtGuard } from 'src/auth/guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
@@ -13,7 +13,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  // @UseGuards(AuthGuard)
+  @UseGuards(JwtGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
