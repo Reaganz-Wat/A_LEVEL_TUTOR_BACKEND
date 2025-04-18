@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { AiChatService } from './ai-chat.service';
 import { CreateAiChatDto } from './dto/create-ai-chat.dto';
 import { UpdateAiChatDto } from './dto/update-ai-chat.dto';
@@ -11,6 +11,13 @@ export class AiChatController {
   create(@Body() createAiChatDto: CreateAiChatDto) {
     return this.aiChatService.create(createAiChatDto);
   }
+
+  @Post('/ai-querry')
+  aiQuerryGenerator(@Body() aiBody: CreateAiChatDto) {
+    console.log("First things", aiBody)
+    return this.aiChatService.generateAIResponse(aiBody)
+  }
+
 
   @Get()
   findAll() {

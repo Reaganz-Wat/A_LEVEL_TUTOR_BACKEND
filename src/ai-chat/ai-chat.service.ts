@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAiChatDto } from './dto/create-ai-chat.dto';
 import { UpdateAiChatDto } from './dto/update-ai-chat.dto';
+import { CreateAiQuerryDto } from 'src/ai_querries/dto/create-ai_querry.dto';
 
 @Injectable()
 export class AiChatService {
   create(createAiChatDto: CreateAiChatDto) {
     return 'This action adds a new aiChat';
   }
+
+  async generateAIResponse(createAiQuerryDto: CreateAiQuerryDto) {
+    console.log("This is the querry inputs: ", createAiQuerryDto);
+  }
+
 
   findAll() {
     return `This action returns all aiChat`;

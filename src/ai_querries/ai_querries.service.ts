@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAiQuerryDto } from './dto/create-ai_querry.dto';
 import { UpdateAiQuerryDto } from './dto/update-ai_querry.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AiQuerriesService {
