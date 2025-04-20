@@ -6,7 +6,7 @@ export class CreateAiChatDto {
     @IsNotEmpty()
     @ApiProperty({
         description: "This is the id of the topic you are searching for",
-        example: "1"
+        example: "b1e3924e-84ae-4225-b0a3-b26eee3f4bdf"
     })
     topicId: string;
 
@@ -17,4 +17,12 @@ export class CreateAiChatDto {
         example: "What are the different types of energy"
     })
     querry: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({
+        description: "This is the detailed description of the topic the ai will search",
+        example: "This is the study of heat in relation to energy"
+    })
+    topicdescription: string;
 }
