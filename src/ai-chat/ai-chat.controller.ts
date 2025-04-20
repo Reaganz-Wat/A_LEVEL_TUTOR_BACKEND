@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { JwtGuard } from 'src/auth/guard';
 import { AiChatService } from './ai-chat.service';
 import { CreateAiChatDto } from './dto/create-ai-chat.dto';
 import { UpdateAiChatDto } from './dto/update-ai-chat.dto';
+import { GetUser } from 'src/auth/decorator';
 
+@UseGuards(JwtGuard)
 @Controller('ai-chat')
 export class AiChatController {
   constructor(private readonly aiChatService: AiChatService) {}
@@ -13,8 +16,9 @@ export class AiChatController {
   }
 
   @Post('/ai-querry')
-  aiQuerryGenerator(@Body() aiBody: CreateAiChatDto) {
-    console.log("First things", aiBody)
+  aiQuerryGenerator(@Body() aiBody: CreateAiChatDto, @GetUser('id') userId: string) {
+    console.log("UserId: ", userId);
+    console.log("AI Body: ", aiBody);
     return this.aiChatService.generateAIResponse(aiBody)
   }
 

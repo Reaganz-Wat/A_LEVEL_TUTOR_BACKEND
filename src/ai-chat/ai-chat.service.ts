@@ -10,7 +10,7 @@ export class AiChatService {
   }
 
   async generateAIResponse(createAiQuerryDto: CreateAiQuerryDto) {
-    console.log("This is the querry inputs: ", createAiQuerryDto);
+    return "This is the generated ai querry";
   }
 
 

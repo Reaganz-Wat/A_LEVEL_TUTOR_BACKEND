@@ -4,6 +4,7 @@ import { UpdateTopicDto } from './dto/update-topic.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Topic } from './entities/topic.entity';
 import { Repository } from 'typeorm';
+import { title } from 'process';
 
 @Injectable()
 export class TopicsService {
@@ -13,7 +14,12 @@ export class TopicsService {
   ) {}
 
   async create(createTopicDto: CreateTopicDto): Promise<Topic> {
-    const newTopic = this.topicRepository.create(createTopicDto);
+    const newTopic = this.topicRepository.create(
+      {title: createTopicDto.title,
+      description: createTopicDto.description,
+      user: {id: createTopicDto.userId}
+    }
+    );
     return await this.topicRepository.save(newTopic);
   }
 

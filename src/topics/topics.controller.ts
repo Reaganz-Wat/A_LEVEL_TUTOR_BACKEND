@@ -6,12 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
-import { JwtGuard } from 'src/auth/guard';
+import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 import { TopicsService } from './topics.service';
+import { JwtGuard } from 'src/auth/guard';
 
 @Controller('topics')
 export class TopicsController {
@@ -23,7 +24,7 @@ export class TopicsController {
     return this.topicsService.create({
       title: createTopicDto.title,
       description: createTopicDto.description,
-      id: userId,
+      userId: userId,
     });
   }
 

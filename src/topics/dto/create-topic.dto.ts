@@ -24,5 +24,5 @@ export class CreateTopicDto {
         example: "87b286d4-0522-4fc2-8832-89d73e9cfb52",
         description: "This is the user-id"
     })
-    id: string;
+    userId?: string;
 }
