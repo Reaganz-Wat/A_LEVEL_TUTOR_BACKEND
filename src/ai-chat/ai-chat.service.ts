@@ -4,6 +4,7 @@ import { TopicsService } from 'src/topics/topics.service';
 import { CreateAiChatDto } from './dto/create-ai-chat.dto';
 import { UpdateAiChatDto } from './dto/update-ai-chat.dto';
 import { ConfigService } from "@nestjs/config";
+import { HistoryService } from "src/history/history.service";
 
 @Injectable()
 export class AiChatService {
@@ -12,6 +13,7 @@ export class AiChatService {
 
   constructor(
     private readonly topicService: TopicsService,
+    private readonly historyService: HistoryService,
     private readonly configService: ConfigService,
   ) {
     this.ai = new GoogleGenAI({
@@ -51,7 +53,7 @@ export class AiChatService {
         model: "gemini-2.0-flash",
         contents: aiPrompt,
       });
-      console.log("Generated response: ", response.text);
+      // console.log("Generated response: ", response.text);
 
       // Check if the response is empty or not
       if (!response.text) {
@@ -62,6 +64,12 @@ export class AiChatService {
       }
 
       // Save to the database if needed from here
+      await this.historyService.create({
+        querry: createAiQuerryDto.querry,
+        response: response.text,
+        userId: userId,
+        topicId: createAiQuerryDto.topicId
+      })
 
       return {
         success: true,
@@ -71,7 +79,6 @@ export class AiChatService {
       console.error("AI response generation error: ", error);
       throw new Error("Failed to generate AI response.");
     }
-
   }
 
 

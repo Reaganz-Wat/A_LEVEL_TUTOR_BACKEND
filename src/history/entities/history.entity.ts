@@ -6,10 +6,10 @@ import { Column, Entity, ManyToOne } from "typeorm";
 
 @Entity("history")
 export class History extends ProjectBaseEntity {
-    @Column()
+    @Column("text")
     querry: string;
 
-    @Column()
+    @Column("text")
     response: string;
 
     @ManyToOne(() => User, (user) => user.history)
