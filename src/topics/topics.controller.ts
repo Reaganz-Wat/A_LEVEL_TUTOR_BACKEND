@@ -9,16 +9,15 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
-import { CreateTopicDto } from './dto/create-topic.dto';
+import { JwtGuard } from 'src/auth/guard';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 import { TopicsService } from './topics.service';
-import { JwtGuard } from 'src/auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('topics')
 export class TopicsController {
   constructor(private readonly topicsService: TopicsService) {}
 
-  @UseGuards(JwtGuard)
   @Post()
   create(@Body() createTopicDto: any, @GetUser('id') userId: string) {
     return this.topicsService.create({

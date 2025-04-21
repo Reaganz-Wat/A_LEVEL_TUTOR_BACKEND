@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Topic } from './entities/topic.entity';
-import { Repository } from 'typeorm';
-import { title } from 'process';
 
 @Injectable()
 export class TopicsService {
