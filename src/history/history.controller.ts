@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { HistoryService } from './history.service';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { UpdateHistoryDto } from './dto/update-history.dto';
+import { GetUser } from 'src/auth/decorator';
+import { JwtGuard } from 'src/auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('history')
 export class HistoryController {
   constructor(private readonly historyService: HistoryService) {}
@@ -13,9 +16,15 @@ export class HistoryController {
   }
 
   @Get()
-  findAll() {
-    return this.historyService.findAll();
+  findAll(@GetUser('id') userId: string) {
+    return this.historyService.findAll(userId);
   }
+
+  @Get(':topicId')
+  findByTopicIdUserId(@Param('topicid') topicId: string, @GetUser('id') userId: string) {
+    return this.historyService.findByTopicIdUserId(topicId, userId);
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

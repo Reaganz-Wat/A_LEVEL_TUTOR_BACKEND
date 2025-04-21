@@ -38,8 +38,77 @@ export class HistoryService {
     return this.historyRepository.save(history);
   }
 
-  findAll() {
-    return `This action returns all history`;
+  // async findAll(userId: string) {
+  //   const histories = await this.historyRepository.find({
+  //     where: {
+  //       user: { id: userId },
+  //     },
+  //     relations: ['topic'],
+  //     order: {
+  //       createdAt: 'DESC',
+  //     },
+  //   });
+  
+  //   // Group by topicId
+  //   const grouped = histories.reduce((acc, history) => {
+  //     const topicId = history.topic.id;
+  //     if (!acc[topicId]) {
+  //       acc[topicId] = {
+  //         topicId: history.topic.id,
+  //         topicTitle: history.topic.title,
+  //         queries: [],
+  //       };
+  //     }
+  //     acc[topicId].queries.push({
+  //       query: history.querry,
+  //       response: history.response,
+  //       createdAt: history.createdAt,
+  //     });
+  //     return acc;
+  //   }, {});
+  
+  //   // Return as array
+  //   return Object.values(grouped);
+  // }
+
+  async findAll(userId: string) {
+    const histories = await this.historyRepository.find({
+      where: {
+        user: { id: userId },
+      },
+      relations: ['topic'],
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+  
+    const grouped = histories.reduce((acc, history) => {
+      const topicId = history.topic.id;
+      if (!acc[topicId]) {
+        acc[topicId] = {
+          topicId: history.topic.id,
+          topicTitle: history.topic.title,
+          topicDescription: history.topic.description,
+          queries: [],
+        };
+      }
+      acc[topicId].queries.push({
+        query: history.querry,
+        response: history.response,
+        createdAt: history.createdAt,
+      });
+      return acc;
+    }, {});
+  
+    return Object.values(grouped);
+  }
+  
+  
+
+  async findByTopicIdUserId(topicId: string, userId: string): Promise<History[]> {
+    const history = await this.historyRepository.find({where: {topic: {id: topicId}, user: {id: userId}}});
+    if (!history) throw new NotFoundException('History not found');
+    return history;
   }
 
   findOne(id: number) {
