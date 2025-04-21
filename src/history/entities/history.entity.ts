@@ -1,10 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { ProjectBaseEntity } from "src/common/entities/base.entity";
-import { Column, Entity } from "typeorm";
+import { Topic } from "src/topics/entities/topic.entity";
+import { User } from "src/users/entities/user.entity";
+import { Column, Entity, ManyToOne } from "typeorm";
 
 @Entity("history")
 export class History extends ProjectBaseEntity {
-    @ApiProperty()
-    @Column({ type: 'enum', enum: ['learned', 'exam_attempt', 'ai_query'] })
-    action: 'learned' | 'exam_attempt' | 'ai_query';
+    @Column()
+    querry: string;
+
+    @Column()
+    response: string;
+
+    @ManyToOne(() => User, (user) => user.history)
+    user: User;
+
+    @ManyToOne(() => Topic, (topic) => topic.history)
+    topic: Topic;
 }

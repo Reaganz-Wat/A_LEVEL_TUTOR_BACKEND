@@ -23,4 +23,7 @@ export class User extends ProjectBaseEntity {
 
   @OneToMany(() => Topic, (topic) => topic.user)
   topic: Topic[]
+
+  @OneToMany(() => Topic, (topic) => topic.user)
+  history: Topic[]
 }
