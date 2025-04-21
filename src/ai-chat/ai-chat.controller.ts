@@ -17,9 +17,7 @@ export class AiChatController {
 
   @Post('/ai-querry')
   aiQuerryGenerator(@Body() aiBody: CreateAiChatDto, @GetUser('id') userId: string) {
-    console.log("UserId: ", userId);
-    console.log("AI Body: ", aiBody);
-    return this.aiChatService.generateAIResponse(aiBody)
+    return this.aiChatService.generateAIResponse(aiBody, userId);
   }
 
 
