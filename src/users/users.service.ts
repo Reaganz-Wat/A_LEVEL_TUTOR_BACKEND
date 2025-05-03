@@ -7,14 +7,19 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(
+    createUserDto: CreateUserDto,
+  ): Promise<{ user: User; message: string }> {
     const newUser = this.userRepository.create(createUserDto);
-    return await this.userRepository.save(newUser);
+    const createdUser = await this.userRepository.save(newUser);
+    return {
+      user: createdUser,
+      message: 'User created successfully',
+    };
   }
 
   async findAll(): Promise<User[]> {
@@ -22,7 +27,7 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    const oneUser = await this.userRepository.findOne({ where: { id }});
+    const oneUser = await this.userRepository.findOne({ where: { id } });
 
     if (!oneUser) {
       throw new Error(`User with id: ${id} not found`);
@@ -30,7 +35,6 @@ export class UsersService {
 
     return oneUser;
   }
-
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<void> {
     await this.userRepository.update(id, updateUserDto);
