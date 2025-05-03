@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ProjectBaseEntity } from 'src/common/entities/base.entity';
 import { Topic } from 'src/topics/entities/topic.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import * as argon from 'argon2';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -31,4 +32,12 @@ export class User extends ProjectBaseEntity {
 
   @OneToMany(() => Topic, (topic) => topic.user)
   history: Topic[]
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    if (this.password && !this.password.startsWith('$argon2')) {
+      this.password = await argon.hash(this.password);
+    }
+  }
 }
