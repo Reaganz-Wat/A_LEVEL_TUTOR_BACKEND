@@ -21,7 +21,7 @@ export class HistoryController {
   }
 
   @Get(':topicId')
-  findByTopicIdUserId(@Param('topicid') topicId: string, @GetUser('id') userId: string) {
+  findByTopicIdUserId(@Param('topicId') topicId: string, @GetUser('id') userId: string) {
     return this.historyService.findByTopicIdUserId(topicId, userId);
   }
 
