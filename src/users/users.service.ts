@@ -1,14 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Topic } from 'src/topics/entities/topic.entity';
+
+export interface Analytics {
+  totalUsers: number;
+  totalTopics: number;
+}
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Topic)
+    private readonly topicRepository: Repository<Topic>,
   ) {}
 
   async create(
@@ -42,5 +50,17 @@ export class UsersService {
 
   async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
+  }
+
+  async analytics(): Promise<Analytics> {
+    const totalUsers = await this.userRepository.count({
+      where: { role: UserRole.STUDENT },
+    });
+    const totalTopics = await this.topicRepository.count();
+
+    return {
+      totalUsers,
+      totalTopics,
+    };
   }
 }
