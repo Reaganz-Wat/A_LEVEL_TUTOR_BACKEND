@@ -85,7 +85,7 @@ import { AiChatModule } from './ai-chat/ai-chat.module';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [User, Topic, Lesson, Question, History, Exam, AiQuerry],
-        synchronize: true,  // Set to false in production
+        synchronize: false,  // Set to false in production
         migrationsRun: true,  // Run migrations automatically on application startup
         migrations: [__dirname + '/migrations/*.ts'], // Define where migrations are stored
         cli: {
